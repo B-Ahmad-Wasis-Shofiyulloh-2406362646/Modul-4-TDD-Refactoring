@@ -3,6 +3,7 @@ plugins {
     jacoco
 	id("org.springframework.boot") version "3.5.10"
 	id("io.spring.dependency-management") version "1.1.7"
+    id("org.sonarqube") version "7.2.2.6593"
 }
 
 group = "id.ac.ui.cs.advprog"
@@ -18,6 +19,15 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "B-Ahmad-Wasis-Shofiyulloh-2406362646_Modul-1-Coding-Standards")
+        property("sonar.organization", "b-ahmad-wasis-shofiyulloh-2406362646")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+    }
 }
 
 configurations {
@@ -85,4 +95,8 @@ tasks.test {
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
 }
