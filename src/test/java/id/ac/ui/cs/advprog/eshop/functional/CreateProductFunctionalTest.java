@@ -31,7 +31,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void createProduct_isCorrect(ChromeDriver driver) throws Exception {
+    void createProduct_isCorrect(ChromeDriver driver) {
         driver.get(baseUrl + "/product/create");
 
         driver.findElement(By.id("nameInput")).sendKeys("Produk Testing");
