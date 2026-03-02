@@ -11,8 +11,12 @@ import java.util.List;
 @Service
 public class CarServiceImpl implements CarService {
 
-    @Autowired
-    private CarRepository carRepository;
+    private final CarRepository carRepository;
+
+    @Autowired 
+    public CarServiceImpl(CarRepository carRepository) {
+        this.carRepository = carRepository;
+    }
 
     @Override
     public Car create(Car car) {
@@ -35,12 +39,12 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void update(String carId, Car car) {
-        carRepository.update(carId, car);
+    public void update(Car car) {
+        carRepository.update(car);
     }
 
     @Override
-    public void deleteCarById(String carId) {
+    public void delete(String carId) {
         carRepository.delete(carId);
     }
 }

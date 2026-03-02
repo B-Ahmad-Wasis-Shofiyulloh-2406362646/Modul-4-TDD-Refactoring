@@ -9,9 +9,9 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -23,8 +23,12 @@ class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
 
-    @InjectMocks
-    private ProductServiceImpl productService;
+    private ProductService productService;
+
+    @BeforeEach
+    void setUp() {
+        productService = new ProductServiceImpl(productRepository);
+    }
 
     @Test
     void testCreate() {
