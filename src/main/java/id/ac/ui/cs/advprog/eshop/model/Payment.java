@@ -12,15 +12,20 @@ public class Payment {
     Map<String, String> paymentData;
 
     public Payment(String id, String orderId, String method, Map<String, String> paymentData) {
-        // TODO: implement
+        if (id == null || orderId == null || method == null || paymentData == null) {
+            throw new IllegalArgumentException();
+        }
         this.id = id;
         this.orderId = orderId;
         this.method = method;
+        this.status = "PENDING";
         this.paymentData = paymentData;
     }
 
     public Payment(String id, String orderId, String method, Map<String, String> paymentData, String status) {
-        // TODO: implement
+        if (id == null || orderId == null || method == null || paymentData == null) {
+            throw new IllegalArgumentException();
+        }
         this.id = id;
         this.orderId = orderId;
         this.method = method;
@@ -29,6 +34,6 @@ public class Payment {
     }
 
     public void setStatus(String status) {
-        // TODO: implement
+        this.status = status;
     }
 }
