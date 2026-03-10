@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order History</title>
+</head>
+<body>
+<h1>Find Order History</h1>
+<form th:action="@{/order/history}" method="post">
+    <label for="authorInput">Author</label><br>
+    <input id="authorInput" type="text" name="author" required><br><br>
+    <button type="submit">Find Orders</button>
+</form>
+
+<p><a th:href="@{/order/create}">Create New Order</a></p>
+</body>
+</html>
