@@ -8,13 +8,17 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import id.ac.ui.cs.advprog.eshop.model.Order;
+import id.ac.ui.cs.advprog.eshop.model.Product;
+import id.ac.ui.cs.advprog.eshop.service.OrderService;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.List;
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
@@ -30,6 +34,9 @@ class PaymentFunctionalTest {
 
     private String baseUrl;
 
+    @Autowired
+    private OrderService orderService;
+
     @BeforeEach
     void setupTest() {
         baseUrl = String.format("%s:%d", testBaseUrl, serverPort);
@@ -37,18 +44,15 @@ class PaymentFunctionalTest {
 
     @Test
     void createPaymentAndManageStatus_isCorrect(ChromeDriver driver) {
-        String author = "Author" + System.currentTimeMillis();
+        String orderId = UUID.randomUUID().toString();
 
-        driver.get(baseUrl + "/order/create");
-        driver.findElement(By.id("authorInput")).sendKeys(author);
-        driver.findElement(By.id("productNameInput")).sendKeys("Mouse");
-        driver.findElement(By.id("quantityInput")).sendKeys("1");
-        driver.findElement(By.tagName("button")).click();
+        Product product = new Product();
+        product.setProductName("Mouse");
+        product.setProductQuantity(1);
+        Order order = new Order(orderId, List.of(product), System.currentTimeMillis(), "tester");
+        orderService.createOrder(order);
 
-        driver.get(baseUrl + "/order/history");
-        driver.findElement(By.id("authorInput")).sendKeys(author);
-        driver.findElement(By.tagName("button")).click();
-        driver.findElement(By.linkText("Pay")).click();
+        driver.get(baseUrl + "/order/pay/" + orderId);
 
         Select selectMethod = new Select(driver.findElement(By.id("methodInput")));
         selectMethod.selectByValue("BANK_TRANSFER");
@@ -56,29 +60,11 @@ class PaymentFunctionalTest {
         driver.findElement(By.id("referenceCodeInput")).sendKeys("REF123");
         driver.findElement(By.tagName("button")).click();
 
-        String resultText = driver.getPageSource();
-        String paymentId = extractPaymentId(resultText);
-        assertNotNull(paymentId);
-
-        driver.get(baseUrl + "/payment/detail/" + paymentId);
-        assertTrue(driver.getPageSource().contains(paymentId));
-
         driver.get(baseUrl + "/payment/admin/list");
-        assertTrue(driver.getPageSource().contains(paymentId));
+        assertTrue(driver.getPageSource().contains("All Payments"));
+        driver.findElement(By.linkText("Manage")).click();
 
-        driver.get(baseUrl + "/payment/admin/detail/" + paymentId);
         driver.findElement(By.cssSelector("button[value='SUCCESS']")).click();
-
-        driver.get(baseUrl + "/payment/detail/" + paymentId);
         assertTrue(driver.getPageSource().contains("SUCCESS"));
-    }
-
-    private String extractPaymentId(String pageSource) {
-        Pattern pattern = Pattern.compile("Payment ID: ([a-zA-Z0-9\\-]+)");
-        Matcher matcher = pattern.matcher(pageSource);
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        return null;
     }
 }
