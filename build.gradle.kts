@@ -23,7 +23,7 @@ java {
 
 sonar {
     properties {
-        property("sonar.projectKey", "B-Ahmad-Wasis-Shofiyulloh-2406362646_Modul-1-Coding-Standards")
+        property("sonar.projectKey", "B-Ahmad-Wasis-Shofiyulloh-2406362646_Modul-4-TDD-Refactoring")
         property("sonar.organization", "b-ahmad-wasis-shofiyulloh-2406362646")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sources", "src/main/java,src/main/resources")
