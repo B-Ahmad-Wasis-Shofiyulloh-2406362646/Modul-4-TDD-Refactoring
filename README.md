@@ -57,3 +57,12 @@ Kerugian tidak menggunakan prinsip SOLID:
 2. Jika tidak menggunakan DIP, sebuah service akan menjadi hard-coded ke sebuah repository yang spesifik.
 
 </details>
+
+<details>
+<summary>Modul 4 - Reflection</summary>
+
+Saya merasa alur TDD yang diterapkan pada tutorial ini sangat berguna dalam proses pengembangan proyek yang saya lakukan. Menuliskan tes dari suatu modul terlebih dahulu membuat saya memikirkan semua edge case yang perlu dipertimbangkan bahkan sebelum implementasi kode mulai dibuat. Saya juga merasa alur TDD membantu saya dalam memahami proses refactoring yang baik.
+
+Secara keseluruhan, saya merasa tes yang telah dibuat di tutorial ini sudah cukup baik dalam mengikuti prinsip F.I.R.S.T. Tesnya sederhana sehingga berjalan dengan cepat, ini mengikuti prinsip Fast. Tesnya tidak terpengaruh oleh tes lain dengan memanfaatkan BeforeEach, ini mengikuti prinsip Independent. Tesnya tidak memanfaatkan environment yang khusus sehingga bisa dijalankan di mana pun dan akan mengeluarkan hasil yang sama, ini mengikuti prinsip Repeatable. Tesnya memiliki assertion sehingga tidak memerlukan pengecekan manual, ini mengikuti prinsip Self-Validating. Terakhir, tesnya ditulis sebelum melakukan implementasi, ini mengikuti prinsip Timely. 
+
+</details>
