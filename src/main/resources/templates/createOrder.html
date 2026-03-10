@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Order</title>
+</head>
+<body>
+<h1>Create Order</h1>
+<form th:action="@{/order/create}" th:object="${orderForm}" method="post">
+    <label for="authorInput">Author</label><br>
+    <input id="authorInput" type="text" th:field="*{author}" required><br><br>
+
+    <label for="productNameInput">Product Name</label><br>
+    <input id="productNameInput" type="text" th:field="*{productName}" required><br><br>
+
+    <label for="quantityInput">Quantity</label><br>
+    <input id="quantityInput" type="number" min="1" th:field="*{productQuantity}" required><br><br>
+
+    <button type="submit">Create Order</button>
+</form>
+
+<p><a th:href="@{/order/history}">View Order History</a></p>
+</body>
+</html>
