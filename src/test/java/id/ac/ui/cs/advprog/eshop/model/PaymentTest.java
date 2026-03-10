@@ -74,4 +74,32 @@ class PaymentTest {
             new Payment("payment-123", "order-456", "VOUCHER_CODE", null);
         });
     }
+
+    @Test
+    void testCreatePaymentWithStatusNullId() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Payment(null, "order-456", "VOUCHER_CODE", this.paymentData, "SUCCESS");
+        });
+    }
+
+    @Test
+    void testCreatePaymentWithStatusNullOrderId() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Payment("payment-123", null, "VOUCHER_CODE", this.paymentData, "SUCCESS");
+        });
+    }
+
+    @Test
+    void testCreatePaymentWithStatusNullMethod() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Payment("payment-123", "order-456", null, this.paymentData, "SUCCESS");
+        });
+    }
+
+    @Test
+    void testCreatePaymentWithStatusNullPaymentData() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Payment("payment-123", "order-456", "VOUCHER_CODE", null, "SUCCESS");
+        });
+    }
 }

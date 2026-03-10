@@ -117,4 +117,45 @@ class OrderControllerTest {
 
         verify(paymentService, times(1)).addPayment(eq(order), eq("BANK_TRANSFER"), any(Map.class));
     }
+
+    @Test
+    void testOrderPayPostVoucherCode() throws Exception {
+        Product product = new Product();
+        product.setProductName("Book");
+        product.setProductQuantity(1);
+        Order order = new Order("o-4", List.of(product), 1L, "tester");
+        when(orderService.findById("o-4")).thenReturn(order);
+
+        Payment payment = new Payment("p-2", "o-4", "VOUCHER_CODE", Map.of("voucherCode", "ESHOP12345678ABC"));
+        when(paymentService.addPayment(eq(order), eq("VOUCHER_CODE"), any(Map.class))).thenReturn(payment);
+
+        mockMvc.perform(post("/order/pay/o-4")
+                        .param("method", "VOUCHER_CODE")
+                        .param("voucherCode", "ESHOP12345678ABC"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("payOrderResult"))
+                .andExpect(model().attribute("paymentId", "p-2"));
+
+        verify(paymentService, times(1)).addPayment(eq(order), eq("VOUCHER_CODE"), any(Map.class));
+    }
+
+    @Test
+    void testOrderPayPostUnknownMethod() throws Exception {
+        Product product = new Product();
+        product.setProductName("Book");
+        product.setProductQuantity(1);
+        Order order = new Order("o-5", List.of(product), 1L, "tester");
+        when(orderService.findById("o-5")).thenReturn(order);
+
+        Payment payment = new Payment("p-3", "o-5", "OTHER", Map.of(), "PENDING");
+        when(paymentService.addPayment(eq(order), eq("OTHER"), any(Map.class))).thenReturn(payment);
+
+        mockMvc.perform(post("/order/pay/o-5")
+                        .param("method", "OTHER"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("payOrderResult"))
+                .andExpect(model().attribute("paymentId", "p-3"));
+
+        verify(paymentService, times(1)).addPayment(eq(order), eq("OTHER"), any(Map.class));
+    }
 }

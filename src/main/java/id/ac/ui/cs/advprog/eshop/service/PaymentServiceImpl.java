@@ -67,11 +67,8 @@ public class PaymentServiceImpl implements PaymentService {
         if (!voucherCode.startsWith("ESHOP")) {
             return false;
         }
-        // Check for 8 numerical characters
+        // Check first 8 characters after prefix are numeric
         String numericalPart = voucherCode.substring(5);
-        if (numericalPart.length() != 11) { // ESHOP (5) + 8 numbers + 3 chars = 16
-            return false;
-        }
         String numbers = numericalPart.substring(0, 8);
         try {
             Integer.parseInt(numbers);
